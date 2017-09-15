@@ -13,7 +13,7 @@ app.listen(PORT, err => {
     -----
     Running on ${process.env.NODE_ENV}
     ---
-    Make something great!
+    Make something great...!
     `);
   }
 });
