@@ -1,5 +1,6 @@
 const devConfig = {
   MONGO_URL: 'mongodb://localhost/nodeapi',
+  JWT_SECRET: 'thisisasecret',
 };
 
 const testConfig = {
@@ -11,7 +12,7 @@ const prodConfig = {
 };
 
 const defaultConfig = {
-  PORT: process.env.PORT || 4000,
+  PORT: process.env.PORT || 3000,
 };
 
 function envConfig(env) {
