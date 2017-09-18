@@ -701,6 +701,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const routes = new _express.Router();
 
 routes.get('/:id', postController.getPostById);
+routes.get('/', postController.getPostsList);
 routes.post('/', _auth.authJwt, (0, _expressValidation2.default)(_post3.default.createPost), postController.createPost);
 
 exports.default = routes;
@@ -717,6 +718,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createPost = createPost;
 exports.getPostById = getPostById;
+exports.getPostsList = getPostsList;
 
 var _httpStatus = __webpack_require__(10);
 
@@ -741,6 +743,17 @@ async function getPostById(req, res) {
   try {
     const post = await _post2.default.findById(req.params.id).populate('user');
     return res.status(_httpStatus2.default.OK).json(post);
+  } catch (e) {
+    return res.status(_httpStatus2.default.BAD_REQUEST).json(e);
+  }
+}
+
+async function getPostsList(req, res) {
+  const limit = parseInt(req.query.limit, 0);
+  const skip = parseInt(req.query.skip, 0);
+  try {
+    const posts = await _post2.default.list({ limit, skip });
+    return res.status(_httpStatus2.default.OK).json(posts);
   } catch (e) {
     return res.status(_httpStatus2.default.BAD_REQUEST).json(e);
   }
@@ -831,6 +844,9 @@ PostSchema.statics = {
     return this.create(Object.assign({}, args, {
       user
     }));
+  },
+  list({ skip = 0, limit = 5 } = {}) {
+    return this.find().sort({ createdAt: -1 }).skip(skip).limit(limit).populate('user');
   }
 };
 
