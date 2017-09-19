@@ -9,6 +9,14 @@ const routes = new Router();
 
 routes.get('/:id', postController.getPostById);
 routes.get('/', postController.getPostsList);
-routes.post('/', authJwt, validate(postValidation.createPost), postController.createPost);
+routes.post('/', authJwt,
+  validate(postValidation.createPost),
+  postController.createPost
+);
+
+routes.patch('/:id', authJwt,
+  validate(postValidation.updatePost),
+  postController.updatePost
+);
 
 export default routes;
