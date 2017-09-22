@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import validate from 'express-validation'
+import validate from 'express-validation';
 
 import * as postController from './post.controller';
 import { authJwt } from '../../services/auth.services';
@@ -18,5 +18,7 @@ routes.patch('/:id', authJwt,
   validate(postValidation.updatePost),
   postController.updatePost
 );
+
+routes.delete('/:id', authJwt, postController.deletePost);
 
 export default routes;
